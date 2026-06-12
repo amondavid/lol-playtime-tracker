@@ -33,3 +33,26 @@ def save_setting(key, value):
     
     connection.commit()
     connection.close()
+
+
+def get_setting(key):
+    connection = sqlite3.connect(DATABASE_PATH)
+
+    result = connection.execute(
+        """
+        SELECT value FROM settings
+        WHERE key = ?
+        """,
+        (key,)
+    )
+
+    row = result.fetchone()
+
+    if row is None:
+        return None
+    
+    return row[0]
+
+
+    connection.commit()
+    connection.close()
