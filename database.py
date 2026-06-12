@@ -9,12 +9,27 @@ def init_db():
 
     connection = sqlite3.connect(DATABASE_PATH)
 
-    connection.execute("""
+    connection.execute(
+        """
         CREATE TABLE IF NOT EXISTS settings (
             key TEXT PRIMARY KEY,
             value TEXT NOT NULL
         )
-    """)
+        """
+    )
 
+    connection.commit()
+    connection.close()
+
+def save_setting(key, value):
+    connection = sqlite3.connect(DATABASE_PATH)
+    connection.execute(
+        """
+        INSERT OR REPLACE INTO settings (key, value)
+        VALUES (?, ?)
+        """,
+        (key, value)
+    )   
+    
     connection.commit()
     connection.close()
