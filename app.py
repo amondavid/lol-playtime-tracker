@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template 
 from database import init_db
 
 app = Flask(__name__)
@@ -6,6 +6,10 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return "LoL Playtime Tracker is Running."
+
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
 
 
 def main():
