@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from database import init_db, save_setting, get_setting
+from riot_api import get_account_by_riot_id, RiotApiError
 
 app = Flask(__name__)
 
@@ -7,7 +8,7 @@ app = Flask(__name__)
 def index():
     return "LoL Playtime Tracker is Running."
 
-@app.route("/settings", methods=['Get', "POST"])
+@app.route("/settings", methods=['GET', "POST"])
 def settings():
     if request.method == "POST":
         save_setting("riot_id", request.form.get("riot_id", ""))
@@ -26,6 +27,17 @@ def settings():
 
     return render_template("settings.html", settings=settings)
 
+@app.route("/account")
+def account():
+    try:
+        account_data = get_account_by_riot_id()
+    except RiotApiError as error:
+        return f"Riot API error {error}", 400
+    
+    return (
+        f"Found account: {account_data['game_name']}#{account_data['tagline']}"
+        f"<br>PUUID: {account_data['puuid']}"
+    )
 
 def main():
     init_db()
