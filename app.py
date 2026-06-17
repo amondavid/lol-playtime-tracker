@@ -1,8 +1,14 @@
 from flask import Flask, render_template, request, redirect
 from database import init_db, save_setting, get_setting
-from riot_api import get_account_by_riot_id, get_recent_match_ids, RiotApiError
+from riot_api import (
+    get_account_by_riot_id, 
+    get_recent_match_ids,
+    get_match_by_id, 
+    RiotApiError
+)
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def index():
@@ -27,6 +33,7 @@ def settings():
 
     return render_template("settings.html", settings=settings)
 
+
 @app.route("/account")
 def account():
     try:
@@ -38,6 +45,7 @@ def account():
         f"Found account: {account_data['game_name']}#{account_data['tagline']}"
         f"<br>PUUID: {account_data['puuid']}"
     )
+
 
 @app.route("/matches")
 def matches():
@@ -55,6 +63,26 @@ def matches():
     html += "</ul>"
 
     return html
+
+
+@app.route("/latest-match")
+def latest_match():
+    try:
+        match_ids = get_recent_match_ids(count=1)
+        match_data = get_match_by_id(match_ids[0])
+    except RiotApiError as error:
+        return f"Riot API error: {error}", 400
+
+    info = match_data["info"]
+
+    return (
+        "<h1>Latest match</h1>"
+        f"<p>Match ID: {match_data['metadata']['matchId']}</p>"
+        f"<p>Game duration: {info['gameDuration']} seconds</p>"
+        f"<p>Game start timestamp: {info['gameStartTimestamp']}</p>"
+        f"<p>Queue ID: {info['queueId']}</p>"
+    )
+
 
 def main():
     init_db()

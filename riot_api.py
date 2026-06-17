@@ -93,3 +93,26 @@ def get_recent_match_ids(count=10):
         )
 
     return response.json()
+
+def get_match_by_id(match_id):
+    region = get_required_setting("region").lower()
+    api_key = get_required_setting("api_key")
+
+    url = (
+        f"https://{region}.api.riotgames.com"
+        f"/lol/match/v5/matches/{match_id}"
+    )
+
+    response = requests.get(
+        url,
+        headers={"X-Riot-Token": api_key},
+        timeout=10,
+    )
+
+    if response.status_code != 200:
+        raise RiotApiError(
+            f"Riot API request failed with status {response.status_code}: "
+            f"{response.text}"
+        )
+
+    return response.json()
