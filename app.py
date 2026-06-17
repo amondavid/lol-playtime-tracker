@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from database import init_db, save_setting, get_setting
-from riot_api import get_account_by_riot_id, RiotApiError
+from riot_api import get_account_by_riot_id, get_recent_match_ids, RiotApiError
 
 app = Flask(__name__)
 
@@ -38,6 +38,23 @@ def account():
         f"Found account: {account_data['game_name']}#{account_data['tagline']}"
         f"<br>PUUID: {account_data['puuid']}"
     )
+
+@app.route("/matches")
+def matches():
+    try:
+        match_ids = get_recent_match_ids()
+    except RiotApiError as error:
+        return f"Riot API error: {error}", 400
+
+    html = "<h1>Recent match IDs</h1>"
+    html += "<ul>"
+
+    for match_id in match_ids:
+        html += f"<li>{match_id}</li>"
+
+    html += "</ul>"
+
+    return html
 
 def main():
     init_db()

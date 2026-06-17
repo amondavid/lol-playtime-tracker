@@ -63,3 +63,33 @@ def get_account_by_riot_id():
         "game_name": data["gameName"],
         "tagline": data["tagLine"],
     }
+
+def get_recent_match_ids(count=10):
+    account_data = get_account_by_riot_id()
+    puuid = account_data["puuid"]
+
+    region = get_required_setting("region").lower()
+    api_key = get_required_setting("api_key")
+
+    url = (
+        f"https://{region}.api.riotgames.com"
+        f"/lol/match/v5/matches/by-puuid/{puuid}/ids"
+    )
+
+    response = requests.get(
+        url,
+        headers={"X-Riot-Token": api_key},
+        params={
+            "start": 0,
+            "count": count,
+        },
+        timeout=10,
+    )
+
+    if response.status_code != 200:
+        raise RiotApiError(
+            f"Riot API request failed with status {response.status_code}: "
+            f"{response.text}"
+        )
+
+    return response.json()
