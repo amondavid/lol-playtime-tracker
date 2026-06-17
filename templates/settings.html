@@ -6,31 +6,31 @@
   <body>
     <h1>Settings</h1>
 
-    <form>
+    <form method="post">
       <label>
         Riot ID:
-        <input type="text" name="riot_id" />
+        <input type="text" name="riot_id" value="{{ settings.riot_id }}" />
       </label>
 
       <br />
 
       <label>
         Tagline:
-        <input type="text" name="tagline" />
+        <input type="text" name="tagline" value="{{ settings.tagline }}" />
       </label>
 
       <br />
 
       <label>
         Region:
-        <input type="text" name="region" />
+        <input type="text" name="region" value="{{ settings.region }}" />
       </label>
 
       <br />
 
       <label>
         API Key:
-        <input type="password" name="api_key" />
+        <input type="password" name="api_key" value="{{ settings.api_key}}" />
       </label>
 
       <br />

@@ -47,12 +47,9 @@ def get_setting(key):
     )
 
     row = result.fetchone()
+    connection.close()
 
     if row is None:
         return None
     
     return row[0]
-
-
-    connection.commit()
-    connection.close()
