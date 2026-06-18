@@ -1,5 +1,6 @@
 from pathlib import Path
 import sqlite3
+import time 
 
 DATABASE_PATH = Path("data/lol-playtime.db")
 
@@ -97,3 +98,38 @@ def save_match(match_id, game_start_timestamp, game_duration_seconds, queue_id):
     connection.close()
 
     return inserted
+
+def get_playtime_stats():
+    connection = sqlite3.connect(DATABASE_PATH)
+
+    total_result = connection.execute(
+        """
+        SELECT
+            COUNT(*),
+            COALESCE(SUM(game_duration_seconds), 0)
+        FROM matches
+        """
+    )
+
+    total_matches, total_seconds = total_result.fetchone()
+
+    fourteen_days_ago_ms = int((time.time() - 14 * 24 * 60 * 60) * 1000)
+
+    recent_result = connection.execute(
+        """
+        SELECT COALESCE(SUM(game_duration_seconds), 0)
+        FROM matches
+        WHERE game_start_timestamp >= ?
+        """,
+        (fourteen_days_ago_ms,),
+    )
+
+    last_14_days_seconds = recent_result.fetchone()[0]
+
+    connection.close()
+
+    return {
+        "total_matches": total_matches,
+        "total_seconds": total_seconds,
+        "last_14_days_seconds": last_14_days_seconds,
+    }

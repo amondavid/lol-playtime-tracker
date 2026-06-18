@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from database import init_db, save_setting, get_setting, save_match
+from database import init_db, save_setting, get_setting, save_match, get_playtime_stats
 from riot_api import (
     get_account_by_riot_id, 
     get_recent_match_ids,
@@ -84,36 +84,6 @@ def latest_match():
     )
 
 
-@app.route("/import-latest-match")
-def import_latest_match():
-    try:
-        match_ids = get_recent_match_ids(count=1)
-        match_data = get_match_by_id(match_ids[0])
-    except RiotApiError as error:
-        return f"Riot API error: {error}", 400
-
-    info = match_data["info"]
-
-    match_id = match_data["metadata"]["matchId"]
-    game_start_timestamp = info["gameStartTimestamp"]
-    game_duration_seconds = info["gameDuration"]
-    queue_id = info["queueId"]
-
-    save_match(
-        match_id,
-        game_start_timestamp,
-        game_duration_seconds,
-        queue_id,
-    )
-
-    return (
-        "<h1>Imported latest match</h1>"
-        f"<p>Match ID: {match_id}</p>"
-        f"<p>Duration: {game_duration_seconds} seconds</p>"
-        f"<p>Started at: {game_start_timestamp}</p>"
-        f"<p>Queue ID: {queue_id}</p>"
-    )
-
 @app.route("/import-recent-matches")
 def import_recent_matches():
     try:
@@ -147,6 +117,28 @@ def import_recent_matches():
         f"<p>Skipped duplicates: {skipped_count}</p>"
         f"<p>Checked: {len(match_ids)} matches</p>"
     )
+
+
+@app.route("/stats")
+def stats():
+    stats_data = get_playtime_stats()
+
+    total_playtime = format_seconds(stats_data["total_seconds"])
+    last_14_days_playtime = format_seconds(stats_data["last_14_days_seconds"])
+
+    return (
+        "<h1>Playtime Stats</h1>"
+        f"<p>Total imported matches: {stats_data['total_matches']}</p>"
+        f"<p>Total imported playtime: {total_playtime}</p>"
+        f"<p>Playtime in last 14 days: {last_14_days_playtime}</p>"
+    )
+
+
+def format_seconds(seconds):
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+
+    return f"{hours}h {minutes}m"
 
 def main():
     init_db()
