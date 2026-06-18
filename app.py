@@ -114,6 +114,40 @@ def import_latest_match():
         f"<p>Queue ID: {queue_id}</p>"
     )
 
+@app.route("/import-recent-matches")
+def import_recent_matches():
+    try:
+        match_ids = get_recent_match_ids(count=5)
+
+        imported_count = 0
+        skipped_count = 0
+
+        for match_id in match_ids:
+            match_data = get_match_by_id(match_id)
+            info = match_data["info"]
+
+            inserted = save_match(
+                match_data["metadata"]["matchId"],
+                info["gameStartTimestamp"],
+                info["gameDuration"],
+                info["queueId"],
+            )
+
+            if inserted:
+                imported_count += 1
+            else:
+                skipped_count += 1
+
+    except RiotApiError as error:
+        return f"Riot API error: {error}", 400
+
+    return (
+        "<h1>Import complete</h1>"
+        f"<p>Imported: {imported_count}</p>"
+        f"<p>Skipped duplicates: {skipped_count}</p>"
+        f"<p>Checked: {len(match_ids)} matches</p>"
+    )
+
 def main():
     init_db()
     app.run(debug=True)
@@ -121,3 +155,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

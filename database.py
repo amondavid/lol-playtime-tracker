@@ -72,7 +72,7 @@ def get_setting(key):
 def save_match(match_id, game_start_timestamp, game_duration_seconds, queue_id):
     connection = sqlite3.connect(DATABASE_PATH)
 
-    connection.execute(
+    cursor = connection.execute(
         """
         INSERT OR IGNORE INTO matches (
             match_id,
@@ -91,4 +91,9 @@ def save_match(match_id, game_start_timestamp, game_duration_seconds, queue_id):
     )
 
     connection.commit()
+
+    inserted = cursor.rowcount == 1
+
     connection.close()
+
+    return inserted
