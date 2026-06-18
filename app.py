@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "LoL Playtime Tracker is Running."
+    return render_template("index.html")
 
 @app.route("/settings", methods=['GET', "POST"])
 def settings():
