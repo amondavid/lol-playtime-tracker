@@ -123,16 +123,12 @@ def import_recent_matches():
 def stats():
     stats_data = get_playtime_stats()
 
-    total_playtime = format_seconds(stats_data["total_seconds"])
-    last_14_days_playtime = format_seconds(stats_data["last_14_days_seconds"])
-
-    return (
-        "<h1>Playtime Stats</h1>"
-        f"<p>Total imported matches: {stats_data['total_matches']}</p>"
-        f"<p>Total imported playtime: {total_playtime}</p>"
-        f"<p>Playtime in last 14 days: {last_14_days_playtime}</p>"
+    return render_template(
+        "stats.html",
+        total_matches=stats_data["total_matches"],
+        total_playtime=format_seconds(stats_data["total_seconds"]),
+        last_14_days_playtime=format_seconds(stats_data["last_14_days_seconds"]),
     )
-
 
 def format_seconds(seconds):
     hours = seconds // 3600
