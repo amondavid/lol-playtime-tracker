@@ -111,11 +111,11 @@ def import_recent_matches():
     except RiotApiError as error:
         return f"Riot API error: {error}", 400
 
-    return (
-        "<h1>Import complete</h1>"
-        f"<p>Imported: {imported_count}</p>"
-        f"<p>Skipped duplicates: {skipped_count}</p>"
-        f"<p>Checked: {len(match_ids)} matches</p>"
+    return render_template(
+        "import_result.html",
+        imported_count=imported_count,
+        skipped_count=skipped_count,
+        checked_count=len(match_ids),
     )
 
 
