@@ -1,5 +1,14 @@
 from flask import Flask, render_template, request, redirect
-from database import init_db, save_setting, get_setting, save_match, get_playtime_stats
+
+from database import (
+    init_db,
+    save_setting,
+    get_setting,
+    save_match,
+    match_exists,
+    get_playtime_stats,
+)
+
 from riot_api import (
     get_account_by_riot_id, 
     get_recent_match_ids,
@@ -86,27 +95,41 @@ def latest_match():
 
 @app.route("/import-recent-matches")
 def import_recent_matches():
+    max_matches = 20
+    batch_size = 20
+
+    imported_count = 0
+    skipped_count = 0
+    checked_count = 0
+
     try:
-        match_ids = get_recent_match_ids(count=5)
+        for start in range(0, max_matches, batch_size):
+            match_ids = get_recent_match_ids(start=start, count=batch_size)
 
-        imported_count = 0
-        skipped_count = 0
+            if not match_ids:
+                break
 
-        for match_id in match_ids:
-            match_data = get_match_by_id(match_id)
-            info = match_data["info"]
+            for match_id in match_ids:
+                checked_count += 1
 
-            inserted = save_match(
-                match_data["metadata"]["matchId"],
-                info["gameStartTimestamp"],
-                info["gameDuration"],
-                info["queueId"],
-            )
+                if match_exists(match_id):
+                    skipped_count += 1
+                    continue
 
-            if inserted:
-                imported_count += 1
-            else:
-                skipped_count += 1
+                match_data = get_match_by_id(match_id)
+                info = match_data["info"]
+
+                inserted = save_match(
+                    match_data["metadata"]["matchId"],
+                    info["gameStartTimestamp"],
+                    info["gameDuration"],
+                    info["queueId"],
+                )
+
+                if inserted:
+                    imported_count += 1
+                else:
+                    skipped_count += 1
 
     except RiotApiError as error:
         return f"Riot API error: {error}", 400
@@ -115,7 +138,7 @@ def import_recent_matches():
         "import_result.html",
         imported_count=imported_count,
         skipped_count=skipped_count,
-        checked_count=len(match_ids),
+        checked_count=checked_count,
     )
 
 

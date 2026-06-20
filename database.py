@@ -133,3 +133,21 @@ def get_playtime_stats():
         "total_seconds": total_seconds,
         "last_14_days_seconds": last_14_days_seconds,
     }
+
+
+def match_exists(match_id):
+    connection = sqlite3.connect(DATABASE_PATH)
+
+    result = connection.execute(
+        """
+        SELECT 1 FROM matches
+        WHERE match_id = ?
+        """,
+        (match_id,),
+    )
+
+    exists = result.fetchone() is not None
+
+    connection.close()
+
+    return exists

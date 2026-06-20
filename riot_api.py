@@ -64,7 +64,7 @@ def get_account_by_riot_id():
         "tagline": data["tagLine"],
     }
 
-def get_recent_match_ids(count=10):
+def get_recent_match_ids(start=0, count=10):
     account_data = get_account_by_riot_id()
     puuid = account_data["puuid"]
 
@@ -80,7 +80,7 @@ def get_recent_match_ids(count=10):
         url,
         headers={"X-Riot-Token": api_key},
         params={
-            "start": 0,
+            "start": start,
             "count": count,
         },
         timeout=10,
