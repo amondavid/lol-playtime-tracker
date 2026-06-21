@@ -10,6 +10,9 @@
     <p>Skipped duplicates: {{ skipped_count }}</p>
     <p>Checked: {{ checked_count }} matches</p>
 
+    <form action="/import-recent-matches" method="post">
+      <button type="submit">Import more recent matches</button>
+    </form>
     <p>
       <a href="/">Back to home</a>
     </p>

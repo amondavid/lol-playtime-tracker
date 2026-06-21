@@ -93,7 +93,7 @@ def latest_match():
     )
 
 
-@app.route("/import-recent-matches")
+@app.route("/import-recent-matches", methods=["POST"])
 def import_recent_matches():
     max_matches = 20
     batch_size = 20
