@@ -11,16 +11,24 @@
       calculating playtime stats.
     </p>
 
+    <h2>Current stats</h2>
+
+    <p>Total imported matches: {{ total_matches }}</p>
+    <p>Total imported playtime: {{ total_playtime }}</p>
+    <p>Playtime in last 14 days: {{ last_14_days_playtime }}</p>
+
     <h2>Actions</h2>
 
-    <ul>
-      <li><a href="/settings">Settings</a></li>
-      <li>
-        <form action="/import-recent-matches" method="post">
-          <button type="submit">Import recent matches</button>
-        </form>
-      </li>
-      <li><a href="/stats">View stats</a></li>
-    </ul>
+    <form action="/import-recent-matches" method="post">
+      <button type="submit">Import recent matches</button>
+    </form>
+
+    <p>
+      <a href="/stats">View stats page</a>
+    </p>
+
+    <p>
+      <a href="/settings">Settings</a>
+    </p>
   </body>
 </html>

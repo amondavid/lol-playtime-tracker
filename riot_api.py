@@ -9,6 +9,15 @@ VALID_ACCOUNT_REGIONS = {"americas", "asia", "europe", "sea"}
 class RiotApiError(Exception):
     pass
 
+def raise_for_riot_error(response, context):
+    if response.status_code == 200:
+        return
+
+    raise RiotApiError(
+        f"{context} failed with status {response.status_code}: "
+        f"{response.text}"
+    )
+
 
 def get_required_setting(key):
     value = get_setting(key)
@@ -50,11 +59,7 @@ def get_account_by_riot_id():
         timeout=10,
     )
 
-    if response.status_code != 200:
-        raise RiotApiError(
-            f"Riot API request failed with status {response.status_code}: "
-            f"{response.text}"
-        )
+    raise_for_riot_error(response, "Account lookup")
 
     data = response.json()
 
@@ -86,11 +91,7 @@ def get_recent_match_ids(start=0, count=10):
         timeout=10,
     )
 
-    if response.status_code != 200:
-        raise RiotApiError(
-            f"Riot API request failed with status {response.status_code}: "
-            f"{response.text}"
-        )
+    raise_for_riot_error(response, "Match ID list lookup")
 
     return response.json()
 
@@ -109,10 +110,6 @@ def get_match_by_id(match_id):
         timeout=10,
     )
 
-    if response.status_code != 200:
-        raise RiotApiError(
-            f"Riot API request failed with status {response.status_code}: "
-            f"{response.text}"
-        )
+    raise_for_riot_error(response, f"Match detail lookup for {match_id}")
 
     return response.json()

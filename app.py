@@ -21,7 +21,14 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    stats_data = get_playtime_stats()
+
+    return render_template(
+        "index.html",
+        total_matches=stats_data["total_matches"],
+        total_playtime=format_seconds(stats_data["total_seconds"]),
+        last_14_days_playtime=format_seconds(stats_data["last_14_days_seconds"]),
+    )
 
 @app.route("/settings", methods=['GET', "POST"])
 def settings():
