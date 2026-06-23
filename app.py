@@ -63,42 +63,6 @@ def account():
     )
 
 
-@app.route("/matches")
-def matches():
-    try:
-        match_ids = get_recent_match_ids()
-    except RiotApiError as error:
-        return f"Riot API error: {error}", 400
-
-    html = "<h1>Recent match IDs</h1>"
-    html += "<ul>"
-
-    for match_id in match_ids:
-        html += f"<li>{match_id}</li>"
-
-    html += "</ul>"
-
-    return html
-
-
-@app.route("/latest-match")
-def latest_match():
-    try:
-        match_ids = get_recent_match_ids(count=1)
-        match_data = get_match_by_id(match_ids[0])
-    except RiotApiError as error:
-        return f"Riot API error: {error}", 400
-
-    info = match_data["info"]
-
-    return (
-        "<h1>Latest match</h1>"
-        f"<p>Match ID: {match_data['metadata']['matchId']}</p>"
-        f"<p>Game duration: {info['gameDuration']} seconds</p>"
-        f"<p>Game start timestamp: {info['gameStartTimestamp']}</p>"
-        f"<p>Queue ID: {info['queueId']}</p>"
-    )
-
 
 @app.route("/import-recent-matches", methods=["POST"])
 def import_recent_matches():
