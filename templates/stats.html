@@ -1,17 +1,8 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Stats - LoL Playtime Tracker</title>
-  </head>
-  <body>
-    <h1>Playtime Stats</h1>
+{% extends "base.html" %} {% block title %}Stats - LoL Playtime Tracker{%
+endblock %} {% block content %}
+<h2>Playtime Stats</h2>
 
-    <p>Total imported matches: {{ total_matches }}</p>
-    <p>Total imported playtime: {{ total_playtime }}</p>
-    <p>Playtime in last 14 days: {{ last_14_days_playtime }}</p>
-
-    <p>
-      <a href="/">Back to home</a>
-    </p>
-  </body>
-</html>
+<p>Total imported matches: {{ total_matches }}</p>
+<p>Total imported playtime: {{ total_playtime }}</p>
+<p>Playtime in last 14 days: {{ last_14_days_playtime }}</p>
+{% endblock %}

@@ -1,24 +1,12 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Import Result - LoL Playtime Tracker</title>
-  </head>
-  <body>
-    <h1>Import complete</h1>
+{% extends "base.html" %} {% block title %}Import Result - LoL Playtime
+Tracker{% endblock %} {% block content %}
+<h2>Import complete</h2>
 
-    <p>Imported: {{ imported_count }}</p>
-    <p>Skipped duplicates: {{ skipped_count }}</p>
-    <p>Checked: {{ checked_count }} matches</p>
+<p>Imported: {{ imported_count }}</p>
+<p>Skipped duplicates: {{ skipped_count }}</p>
+<p>Checked: {{ checked_count }} matches</p>
 
-    <form action="/import-recent-matches" method="post">
-      <button type="submit">Import more recent matches</button>
-    </form>
-    <p>
-      <a href="/">Back to home</a>
-    </p>
-
-    <p>
-      <a href="/stats">View stats</a>
-    </p>
-  </body>
-</html>
+<form action="/import-recent-matches" method="post">
+  <button type="submit">Import more recent matches</button>
+</form>
+{% endblock %}

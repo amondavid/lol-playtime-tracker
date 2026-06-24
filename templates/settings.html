@@ -1,41 +1,36 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>Settings - LoL Playtime Tracker</title>
-  </head>
-  <body>
-    <h1>Settings</h1>
+{% extends "base.html" %} {% block title %}Settings - LoL Playtime Tracker{%
+endblock %} {% block content %}
+<h2>Settings</h2>
 
-    <form method="post">
-      <label>
-        Riot ID:
-        <input type="text" name="riot_id" value="{{ settings.riot_id }}" />
-      </label>
+<form method="post">
+  <label>
+    Riot ID:
+    <input type="text" name="riot_id" value="{{ settings.riot_id }}" />
+  </label>
 
-      <br />
+  <br />
 
-      <label>
-        Tagline:
-        <input type="text" name="tagline" value="{{ settings.tagline }}" />
-      </label>
+  <label>
+    Tagline:
+    <input type="text" name="tagline" value="{{ settings.tagline }}" />
+  </label>
 
-      <br />
+  <br />
 
-      <label>
-        Region:
-        <input type="text" name="region" value="{{ settings.region }}" />
-      </label>
+  <label>
+    Region:
+    <input type="text" name="region" value="{{ settings.region }}" />
+  </label>
 
-      <br />
+  <br />
 
-      <label>
-        API Key:
-        <input type="password" name="api_key" value="{{ settings.api_key}}" />
-      </label>
+  <label>
+    API Key:
+    <input type="password" name="api_key" value="{{ settings.api_key }}" />
+  </label>
 
-      <br />
+  <br />
 
-      <button type="submit">Save settings</button>
-    </form>
-  </body>
-</html>
+  <button type="submit">Save settings</button>
+</form>
+{% endblock %}

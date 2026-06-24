@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}LoL Playtime Tracker{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <h1>LoL Playtime Tracker</h1>
+
+      <nav>
+        <a href="/">Home</a>
+        <a href="/settings">Settings</a>
+        <a href="/stats">Stats</a>
+      </nav>
+    </header>
+
+    <main>{% block content %}{% endblock %}</main>
+  </body>
+</html>
