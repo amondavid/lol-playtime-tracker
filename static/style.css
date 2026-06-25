@@ -1,0 +1,195 @@
+:root {
+  --blue: rgb(10, 20, 40);
+  --white: rgb(255, 255, 255);
+  --gold: rgb(200, 170, 110);
+  --muted-blue: rgba(10, 20, 40, 0.75);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--blue);
+  color: var(--white);
+  font-family: Spiegel, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.site-header {
+  padding: 32px;
+  background-color: var(--blue);
+  color: var(--white);
+  text-align: center;
+}
+
+.site-title {
+  margin: 0 0 20px;
+  color: var(--white);
+  font-family: "Beaufort for LOL", Georgia, serif;
+  font-size: 2.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  color: var(--gold);
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.site-nav a:hover {
+  color: var(--white);
+}
+
+.page {
+  background-color: var(--white);
+  color: var(--blue);
+}
+
+.section {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 56px 0;
+}
+
+.section-dark {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.section-dark .section {
+  color: var(--white);
+}
+
+h2,
+h3 {
+  margin-top: 0;
+  color: var(--blue);
+  font-family: "Beaufort for LOL", Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section-dark h2,
+.section-dark h3 {
+  color: var(--white);
+}
+
+.intro {
+  max-width: 680px;
+  color: var(--muted-blue);
+  font-size: 1.1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin: 32px 0;
+}
+
+.stat-block {
+  text-align: center;
+}
+
+.stat-label {
+  margin: 0 0 8px;
+  color: var(--muted-blue);
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-value {
+  margin: 0;
+  color: var(--blue);
+  font-family: "Beaufort for LOL", Georgia, serif;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.actions {
+  margin-top: 32px;
+}
+
+button {
+  padding: 12px 22px;
+  border: none;
+  background-color: var(--gold);
+  color: var(--blue);
+  font: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+form {
+  max-width: 520px;
+}
+
+label {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--blue);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 2px solid var(--blue);
+  background-color: transparent;
+  color: var(--blue);
+  font: inherit;
+}
+
+input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.result-list {
+  font-size: 1.1rem;
+}
+
+.result-list p {
+  margin: 8px 0;
+}
+
+@media (max-width: 700px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .stat-block {
+    text-align: left;
+  }
+
+  .site-title {
+    font-size: 2rem;
+  }
+}

@@ -1,19 +1,25 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}LoL Playtime Tracker{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
   <body>
-    <header>
-      <h1>LoL Playtime Tracker</h1>
+    <header class="site-header">
+      <h1 class="site-title">LoL Playtime Tracker</h1>
 
-      <nav>
+      <nav class="site-nav">
         <a href="/">Home</a>
         <a href="/settings">Settings</a>
         <a href="/stats">Stats</a>
       </nav>
     </header>
 
-    <main>{% block content %}{% endblock %}</main>
+    <main class="page">{% block content %}{% endblock %}</main>
   </body>
 </html>

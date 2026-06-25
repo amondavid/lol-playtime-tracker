@@ -1,8 +1,23 @@
 {% extends "base.html" %} {% block title %}Stats - LoL Playtime Tracker{%
 endblock %} {% block content %}
-<h2>Playtime Stats</h2>
+<section class="section">
+  <h2>Playtime Stats</h2>
 
-<p>Total imported matches: {{ total_matches }}</p>
-<p>Total imported playtime: {{ total_playtime }}</p>
-<p>Playtime in last 14 days: {{ last_14_days_playtime }}</p>
+  <div class="stats-grid">
+    <div class="stat-block">
+      <p class="stat-label">Total imported matches</p>
+      <p class="stat-value">{{ total_matches }}</p>
+    </div>
+
+    <div class="stat-block">
+      <p class="stat-label">Total imported playtime</p>
+      <p class="stat-value">{{ total_playtime }}</p>
+    </div>
+
+    <div class="stat-block">
+      <p class="stat-label">Playtime in last 14 days</p>
+      <p class="stat-value">{{ last_14_days_playtime }}</p>
+    </div>
+  </div>
+</section>
 {% endblock %}
