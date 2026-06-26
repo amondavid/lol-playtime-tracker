@@ -193,3 +193,17 @@ input:focus {
     font-size: 2rem;
   }
 }
+
+.success-message {
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.error-message {
+  color: rgb(160, 40, 40);
+  font-weight: bold;
+}
+
+.secondary-action {
+  margin-top: 24px;
+}
