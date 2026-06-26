@@ -40,14 +40,35 @@ def settings():
 
         return redirect("/settings")
 
-    settings = {
-        "riot_id": get_setting("riot_id") or "",
-        "tagline": get_setting("tagline") or "",
-        "region": get_setting("region") or "",
-        "api_key": get_setting("api_key") or "",
-    }
+    return render_template(
+    "settings.html",
+    settings=load_settings(),
+    success_message=None,
+    error_message=None,
+)
 
-    return render_template("settings.html", settings=settings)
+
+@app.route("/test-account", methods=["POST"])
+def test_account():
+    try:
+        account_data = get_account_by_riot_id()
+    except RiotApiError as error:
+        return render_template(
+            "settings.html",
+            settings=load_settings(),
+            success_message=None,
+            error_message=f"Riot API error: {error}",
+        )
+
+    return render_template(
+        "settings.html",
+        settings=load_settings(),
+        success_message=(
+            f"Connected successfully as "
+            f"{account_data['game_name']}#{account_data['tagline']}."
+        ),
+        error_message=None,
+    )
 
 
 @app.route("/account")
@@ -129,6 +150,15 @@ def format_seconds(seconds):
     minutes = (seconds % 3600) // 60
 
     return f"{hours}h {minutes}m"
+
+
+def load_settings():
+    return {
+        "riot_id": get_setting("riot_id") or "",
+        "tagline": get_setting("tagline") or "",
+        "region": get_setting("region") or "",
+        "api_key": get_setting("api_key") or "",
+    }
 
 def main():
     init_db()
