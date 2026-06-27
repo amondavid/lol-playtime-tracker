@@ -71,20 +71,6 @@ def test_account():
     )
 
 
-@app.route("/account")
-def account():
-    try:
-        account_data = get_account_by_riot_id()
-    except RiotApiError as error:
-        return f"Riot API error {error}", 400
-    
-    return (
-        f"Found account: {account_data['game_name']}#{account_data['tagline']}"
-        f"<br>PUUID: {account_data['puuid']}"
-    )
-
-
-
 @app.route("/import-recent-matches", methods=["POST"])
 def import_recent_matches():
     max_matches = 20
