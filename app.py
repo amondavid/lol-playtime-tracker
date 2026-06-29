@@ -110,7 +110,7 @@ def import_recent_matches():
                     skipped_count += 1
 
     except RiotApiError as error:
-        return f"Riot API error: {error}", 400
+        return render_riot_error(error)
 
     return render_template(
         "import_result.html",
@@ -145,6 +145,16 @@ def load_settings():
         "region": get_setting("region") or "",
         "api_key": get_setting("api_key") or "",
     }
+
+
+def render_riot_error(error):
+    return (
+        render_template(
+            "error.html",
+            error_message=f"Riot API error: {error}",
+        ),
+        400,
+    )
 
 def main():
     init_db()
