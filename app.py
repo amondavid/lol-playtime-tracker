@@ -73,21 +73,27 @@ def test_account():
 
 @app.route("/import-recent-matches", methods=["POST"])
 def import_recent_matches():
-    max_matches = 20
+    target_import_count = 20
     batch_size = 20
+    max_matches_to_check = 100
 
     imported_count = 0
     skipped_count = 0
     checked_count = 0
 
     try:
-        for start in range(0, max_matches, batch_size):
+        start = 0
+
+        while imported_count < target_import_count and checked_count < max_matches_to_check:
             match_ids = get_recent_match_ids(start=start, count=batch_size)
 
             if not match_ids:
                 break
 
             for match_id in match_ids:
+                if imported_count >= target_import_count:
+                    break
+
                 checked_count += 1
 
                 if match_exists(match_id):
@@ -109,6 +115,8 @@ def import_recent_matches():
                 else:
                     skipped_count += 1
 
+            start += batch_size
+
     except RiotApiError as error:
         return render_riot_error(error)
 
@@ -118,6 +126,7 @@ def import_recent_matches():
         skipped_count=skipped_count,
         checked_count=checked_count,
     )
+
 
 
 @app.route("/stats")
