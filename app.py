@@ -71,8 +71,8 @@ def test_account():
     )
 
 
-@app.route("/import-recent-matches", methods=["POST"])
-def import_recent_matches():
+@app.route("/update-playtime", methods=["POST"])
+def update_playtime():
     target_import_count = 20
     batch_size = 20
     max_matches_to_check = 100
@@ -120,12 +120,7 @@ def import_recent_matches():
     except RiotApiError as error:
         return render_riot_error(error)
 
-    return render_template(
-        "import_result.html",
-        imported_count=imported_count,
-        skipped_count=skipped_count,
-        checked_count=checked_count,
-    )
+    return redirect("/")
 
 
 
