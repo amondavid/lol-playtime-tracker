@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 
 from database import (
     init_db,
@@ -16,7 +16,9 @@ from riot_api import (
     RiotApiError
 )
 
+
 app = Flask(__name__)
+app.secret_key = "dev"
 
 
 @app.route("/")
@@ -119,6 +121,11 @@ def update_playtime():
 
     except RiotApiError as error:
         return render_riot_error(error)
+
+    if imported_count > 0:
+        flash("Playtime updated.")
+    else:
+        flash("Playtime is already up to date.")
 
     return redirect("/")
 
