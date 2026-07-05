@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash
+from datetime import date, datetime, timedelta
 
 from database import (
     init_db,
@@ -30,6 +31,7 @@ def index():
         total_matches=stats_data["total_matches"],
         total_playtime=format_seconds(stats_data["total_seconds"]),
         last_14_days_playtime=format_seconds(stats_data["last_14_days_seconds"]),
+        last_played=format_last_played(stats_data["last_played_timestamp"]),
     )
 
 @app.route("/settings", methods=['GET', "POST"])
@@ -140,6 +142,7 @@ def stats():
         total_matches=stats_data["total_matches"],
         total_playtime=format_seconds(stats_data["total_seconds"]),
         last_14_days_playtime=format_seconds(stats_data["last_14_days_seconds"]),
+        last_played=format_last_played(stats_data["last_played_timestamp"]),
     )
 
 def format_seconds(seconds):
@@ -147,6 +150,22 @@ def format_seconds(seconds):
     minutes = (seconds % 3600) // 60
 
     return f"{hours}h {minutes}m"
+
+
+def format_last_played(timestamp_ms):
+    if timestamp_ms is None:
+        return "No matches imported"
+
+    played_date = datetime.fromtimestamp(timestamp_ms / 1000).date()
+    today = date.today()
+
+    if played_date == today:
+        return "Today"
+
+    if played_date == today - timedelta(days=1):
+        return "Yesterday"
+
+    return played_date.isoformat()
 
 
 def load_settings():

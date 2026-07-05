@@ -99,6 +99,7 @@ def save_match(match_id, game_start_timestamp, game_duration_seconds, queue_id):
 
     return inserted
 
+
 def get_playtime_stats():
     connection = sqlite3.connect(DATABASE_PATH)
 
@@ -106,12 +107,13 @@ def get_playtime_stats():
         """
         SELECT
             COUNT(*),
-            COALESCE(SUM(game_duration_seconds), 0)
+            COALESCE(SUM(game_duration_seconds), 0),
+            MAX(game_start_timestamp)
         FROM matches
         """
     )
 
-    total_matches, total_seconds = total_result.fetchone()
+    total_matches, total_seconds, last_played_timestamp = total_result.fetchone()
 
     fourteen_days_ago_ms = int((time.time() - 14 * 24 * 60 * 60) * 1000)
 
@@ -132,6 +134,7 @@ def get_playtime_stats():
         "total_matches": total_matches,
         "total_seconds": total_seconds,
         "last_14_days_seconds": last_14_days_seconds,
+        "last_played_timestamp": last_played_timestamp,
     }
 
 
