@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --blue: rgb(10, 20, 40);
   --white: rgb(255, 255, 255);
   --gold: rgb(200, 170, 110);
@@ -222,4 +222,236 @@ input:focus {
   margin: 0;
   color: var(--blue);
   font-weight: bold;
+} */
+
+:root {
+  --nav-black: rgb(20, 18, 18);
+  --dark-blue: rgb(10, 20, 40);
+  --text: rgb(235, 230, 215);
+  --white: rgb(255, 255, 255);
+  --gold: rgb(200, 170, 110);
+  --error: rgb(255, 120, 120);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--dark-blue);
+  color: var(--text);
+  font-family: Spiegel, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.site-header {
+  padding: 18px 32px;
+  background-color: var(--nav-black);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.site-title {
+  margin: 0;
+  color: var(--text);
+  font-family: "Beaufort for LOL", Georgia, serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  color: var(--text);
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+}
+
+.site-nav a:hover {
+  color: var(--gold);
+}
+
+.page {
+  min-height: calc(100vh - 92px);
+  background-color: var(--dark-blue);
+  color: var(--text);
+}
+
+.section {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 56px 0;
+}
+
+h2,
+h3 {
+  margin-top: 0;
+  color: var(--gold);
+  font-family: "Beaufort for LOL", Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.intro {
+  max-width: 680px;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+  margin: 32px 0;
+  padding: 32px;
+  border: 1px solid var(--gold);
+}
+
+.stat-block {
+  text-align: center;
+}
+
+.stat-label {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-value {
+  margin: 0;
+  color: var(--white);
+  font-family: "Beaufort for LOL", Georgia, serif;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.actions {
+  margin-top: 32px;
+}
+
+button {
+  padding: 12px 22px;
+  border: 1px solid var(--gold);
+  background-color: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--gold);
+  color: var(--nav-black);
+}
+
+form {
+  max-width: 520px;
+}
+
+label {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--text);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 2px solid var(--text);
+  background-color: transparent;
+  color: var(--white);
+  font: inherit;
+}
+
+input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.result-list {
+  font-size: 1.1rem;
+}
+
+.result-list p {
+  margin: 8px 0;
+}
+
+.success-message {
+  color: var(--text);
+  font-weight: bold;
+}
+
+.error-message {
+  color: var(--error);
+  font-weight: bold;
+}
+
+.secondary-action {
+  margin-top: 24px;
+}
+
+.flash-area {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+  padding-top: 12px;
+}
+
+.flash-area + .section {
+  padding-top: 12px;
+}
+
+.flash-message {
+  margin: 0;
+  color: var(--text);
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    padding: 16px 24px;
+  }
+
+  .site-title {
+    font-size: 1rem;
+  }
+
+  .site-nav {
+    gap: 18px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .stat-block {
+    text-align: left;
+  }
 }
