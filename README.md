@@ -2,7 +2,7 @@
 
 A small local Flask app for tracking League of Legends playtime from imported Riot match history data.
 
-The app saves Riot account settings locally, fetches match data from Riot’s API, stores matches in SQLite, and calculates playtime stats from the stored data.
+The app saves Riot account settings locally, fetches match data from Riot’s API, stores matches in SQLite, and calculates playtime stats from the stored data. It also shows the date of the last time the game was played.
 
 ## Features
 
